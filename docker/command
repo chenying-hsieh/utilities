@@ -1,0 +1,10 @@
+To open the docker and mount your home in it:
+
+docker run -v $HOME:/home/$USER -idt --privileged <your docker image name>
+
+the -it keeps the docker alive by allocating pseudo TTY session
+the -d detaches the docker (but keeps it running)
+
+To attach to the latest spinning docker
+docker exec -it $(docker ps | tail -1 | awk '{ print $(NF) }') bash
+
