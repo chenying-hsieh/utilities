@@ -1,0 +1,7 @@
+
+
+Tools:
+* htop
+* iostat -dm 1 -p /dev/nvme1n1
+* dstat 
+* perf top
