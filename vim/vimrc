@@ -115,24 +115,18 @@ if has('cscope')
 
   map <C-F2> :cs find c
   map <C-F5> :cs find e
-  map <F5> :!cscope -Rbq<CR>:cs reset<CR><CR>
+  map <F5> :!cscope -Rbq<CR>:cs reset<CR><CR>:ctags -R<CR>
   command -nargs=0 Cscope cs add $VIMSRC/src/cscope.out $VIMSRC/src
 endif
 
 " move tabs to the end for new, single buffers (exclude splits)
 autocmd BufNew * if winnr('$') == 1 | tabmove99 | endif
 
-" minibuffer explorer
-  let g:miniBufExplMapWindowNavVim = 1
-"  let g:miniBufExplMapWindowNavArrows = 1
-  let g:miniBufExplMapCTabSwitchBufs = 1
-"  let g:miniBufExplModSelTarget = 1
-
 " GRB: use fancy buffer closing that doesn't close the split
 cnoremap <expr> bd (getcmdtype() == ':' ? 'Bclose' : 'bd')
 
 " Remove trailing spaces on save
-autocmd BufWritePre * %s/\s\+$//e
+"autocmd BufWritePre * %s/\s\+$//e
 
 hi Directory guifg=#FF0000 ctermfg=red
 
@@ -144,6 +138,12 @@ au BufRead,BufNewFile *.go set filetype=go
 set rtp+=~/.vim/syntax
 filetype plugin indent on
 syntax on
+
+" minibuffer explorer
+  let g:miniBufExplMapWindowNavVim = 1
+"  let g:miniBufExplMapWindowNavArrows = 1
+  let g:miniBufExplMapCTabSwitchBufs = 1
+"  let g:miniBufExplModSelTarget = 1
 
 "
 " Project specific settings
@@ -162,3 +162,17 @@ endfunction
 " Switching between tabs
 map <F9> :bp<CR>
 map <F10> :bn<CR>
+
+" signcolumn for older versions (for vim-gitgutter)
+autocmd BufEnter * sign define dummy
+autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
+
+" vim-gitgutter
+let g:gitgutter_map_keys = 0
+let g:gitgutter_enabled = 1
+let g:gitgutter_signs = 1
+let g:gitgutter_highlight_lines = 0
+let g:gitgutter_highlight_linenrs = 0
+let g:gitgutter_async = 0
+let g:gitgutter_preview_win_floating = 0
+let g:gitgutter_use_location_list = 0
