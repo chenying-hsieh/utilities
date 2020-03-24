@@ -1,0 +1,103 @@
+# .bashrc # vim
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific aliases and functions
+PATH=$HOME/bin:$HOME/bin/local/bin:$PATH
+
+alias sh='/bin/bash'
+alias ls='ls --color=auto'
+alias ll='ls -al --color=auto'
+alias ..='cd ..'
+alias ..2='cd ../..'
+alias ..3='cd ../../..'
+alias ..4='cd ../../../..'
+alias ..5='cd ../../../../..'
+
+function whos { grep -R --color=auto -n --exclude-dir=".git" --exclude tags --exclude cscope.out -e "$1" .; }
+# no binary files
+function whosnb { grep -R -I --color=auto -n --exclude-dir=".git" --exclude tags --exclude cscope.* -e "$1" .; }
+# alias whos='grep -R --color=auto -n -e '$1' .'
+alias whos='whos'
+alias whosnb='whosnb'
+alias where='find . -name'
+alias gr='grep -Rnif - . <<<'
+
+alias mk='make -j8'
+alias mkc='make clean'
+alias tmuxas='tmux attach-session'
+
+# MobaXterm - set DISPLAY for MobaXterm
+#. ~/bin/set_display.sh
+
+alias vim='vim -X'
+
+
+# eclipse
+#
+# * Slider controls do not draw on Ubuntu
+#   Sliders do not work on Linux distros with overlay scrollbars enabled (such as Ubuntu 12.04).
+#   A workaround for this is to disable the overlay scrollbars (export LIBOVERLAY_SCROLLBAR=0 )
+#   before launching Eclipse.
+export LIBOVERLAY_SCROLLBAR=0
+
+# tmux VI
+tmux_hv(){
+ sess=$1
+ local file_name=\$@
+ #create session
+ tmux new-session -s tmux-base -d
+ tmux splitw -h -p 40 -t 0
+ tmux splitw -v -p 50 -t 1
+ #tmux resize-pane -t 1 -y 12
+ #tmux resize-pane -t 1 -x 140
+ #tmux send-keys -t 2 \"htop\" C-j
+ #tmux send-keys -t 0 \"vi \$file_name\" C-j
+ #tmux select-pane -t 1
+ #tmux select-pane -t 0
+ #tmux set-window-option -g xterm-keys on
+ tmux set-window-option -g mode-keys vi
+ tmux attach -t tmux-base
+}
+
+
+
+# Android SDK tools
+#PATH=~/tmp/android-sdk/platform-tools/:$PATH
+#PATH=~/tmp/android-sdk/tools/:$PATH
+PATH=~/Android/Sdk/platform-tools/:$PATH
+PATH=~/Android/Sdk/tools/:$PATH
+
+# Android NDK
+#PATH=/opt/toolchains/android-ndk-r14b:$PATH
+PATH=/opt/toolchains/android-ndk-r15c:$PATH
+
+# Java jdk 1.6 for building Android version below 4.4.2
+#PATH=/usr/lib/jvm/jdk1.6.0_39/bin:$PATH
+#JAVA_HOME=/usr/lib/jvm/jdk1.6.0_39
+#JAVA_HOME=/usr/lib/jvm/java-8-oracle
+
+# for Android version over 6
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ANDROID_JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+PATH=$PATH:$ANDROID_JAVA_HOME
+
+# CCACHE
+export USE_CCACHE=1
+
+
+# temp for experiments
+. ~/.tmp.bashrc
+export AMDAPPSDKROOT="/home/drg/AMDAPPSDK-3.0"
+export OPENCL_VENDOR_PATH="/home/drg/AMDAPPSDK-3.0/etc/OpenCL/vendors/"
+
+# temp for dragonboard 810
+#source work/parallel/snapdragon810/bsp/IntrinsycDragonBoard810-AndroidBSP-LLP-2.3.1/build_env.sh > /dev/null
+#
+#echo "Setting up build environment for snapdragon 835"
+source /home/drg/work/platform/open-q-snapdragon-835-hdk/OpenQ-835_Android-N_v1.0/OpenQ-835-v1.0/Source_Package/build_env.sh 2>&1 1>/dev/null
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
