@@ -128,10 +128,15 @@ cnoremap <expr> bd (getcmdtype() == ':' ? 'Bclose' : 'bd')
 " Remove trailing spaces on save
 "autocmd BufWritePre * %s/\s\+$//e
 
-hi Directory guifg=#FF0000 ctermfg=red
+#hi Directory guifg=#FF0000 ctermfg=red
+#colors torte
 
-colors torte
+set incsearch
 
+" white foreground dark background
+highlight Normal guibg=black guifg=white
+set background=dark
+set t_Co=256
 
 au BufRead,BufNewFile *.go set filetype=go
 " set rtp+=$GOROOT/misc/vim
@@ -150,7 +155,7 @@ syntax on
 "
 function! SetupEnvironment()
 	let l:path = expand('%:p')
-	if l:path =~ '/home/roger/work/rocksdb_helium/he-rocksdb'
+	if l:path =~ '/home/roger/work/xyz'
 		setlocal expandtab smarttab textwidth=0
 		setlocal tabstop=4 shiftwidth=4
 	"elseif l:path =~ '/home/user/projects'
@@ -176,3 +181,19 @@ let g:gitgutter_highlight_linenrs = 0
 let g:gitgutter_async = 0
 let g:gitgutter_preview_win_floating = 0
 let g:gitgutter_use_location_list = 0
+
+" use cursor line highlighting
+if version >= 700
+	" set cursorline
+endif
+
+" quick escape in INSERT mode
+imap jj <esc>
+imap JJ <esc>
+
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+
+" install vim plugins located in .vim/bundle
