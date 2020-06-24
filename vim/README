@@ -1,0 +1,14 @@
+Plugins:
+ NERD_tree
+ taglist
+ bclose
+ fs_menu
+ cscope_maps
+ highlightMarks
+ highlights
+ minibufexpl
+ vim-gitgutter
+ vim-fugitive
+ pathogen
+ linediff
+ 
