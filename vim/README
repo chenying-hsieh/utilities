@@ -1,14 +1,21 @@
 Plugins:
- NERD_tree
- taglist
- bclose
- fs_menu
- cscope_maps
- highlightMarks
- highlights
- minibufexpl
- vim-gitgutter
- vim-fugitive
- pathogen
- linediff
- 
+
+buffer_history
+cctree
+clang_complete
+cscope_maps
+bclose
+fs_menu
+highlightMarks
+highlights
+linediff
+minibufexpl
+NERD_tree
+pathogen
+vim-codefmt
+vim-fugitive
+vim-gitgutter
+vim-glaive
+vim-maktaba
+tagbar
+(YouCompleteMe)
