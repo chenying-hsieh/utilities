@@ -41,3 +41,11 @@ let g:ycm_min_num_of_chars_for_completion = 2
 let g:ycm_max_num_candidates = 50
 "let g:ycm_key_invoke_completion = '<C-j>'
 ```
+
+## Compilation Database
+Android: Before build:
+```
+export SOONG_GEN_COMPDB=1
+export SOONG_GEN_COMPDB_DEBUG=1
+```
+And find compile_commands.json
