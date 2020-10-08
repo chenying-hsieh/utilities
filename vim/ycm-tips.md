@@ -1,3 +1,6 @@
+## VIM 8.2 huge build and support python3.6 or above
+./configure --prefix=$HOME --enable-python3interp=yes --with-python3-command=python3 --with-features=huge --enable-cscope --enable-pythoninterp --enable-multibyte
+
 ## Common
 Cancel hover window
 ```
