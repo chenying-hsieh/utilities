@@ -1,3 +1,13 @@
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
 
 " Tell vim to remember certain things when we exit
 "  '10  :  marks will be remembered for up to 10 previously edited files
@@ -35,64 +45,36 @@ set history=500
 set ruler
 
 set wildmenu
+" Don't offer to open certain files/directories
+set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
+set wildignore+=*.pdf,*.psd,*.o
 
-" // The switch of the Source Explorer
-nmap <F8> :SrcExplToggle<CR>
+set matchpairs=(:),{:},[:],<:>
 
-" // Set the height of Source Explorer window
-let g:SrcExpl_winHeight = 8
-
-" // Set 100 ms for refreshing the Source Explorer
-let g:SrcExpl_refreshTime = 100
-
-" // Set "Enter" key to jump into the exact definition context
-let g:SrcExpl_jumpKey = "<ENTER>"
-
-" // Set "Space" key for back from the definition context
-let g:SrcExpl_gobackKey = "<SPACE>"
-
-" // In order to avoid conflicts, the Source Explorer should know what plugins
-" // except itself are using buffers. And you need add their buffer names into
-" // below listaccording to the command ":buffers!"
-let g:SrcExpl_pluginList = [
-        \ "__Tag_List__",
-        \ "_NERD_tree_"
-    \ ]
-
-" // Enable/Disable the local definition searching, and note that this is not
-" // guaranteed to work, the Source Explorer doesn't check the syntax for now.
-" // It only searches for a match with the keyword according to command 'gd'
-let g:SrcExpl_searchLocalDef = 1
-
-" // Do not let the Source Explorer update the tags file when opening
-let g:SrcExpl_isUpdateTags = 0
-
-" // Use 'Exuberant Ctags' with '--sort=foldcase -R .' or '-L cscope.files' to
-" // create/update the tags file
-let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
-
-" // Set "<F12>" key for updating the tags file artificially
-let g:SrcExpl_updateTagsKey = "<F12>"
-
-" // Set "<F3>" key for displaying the previous definition in the jump list
-let g:SrcExpl_prevDefKey = "<F3>"
-
-" // Set "<F4>" key for displaying the next definition in the jump list
-let g:SrcExpl_nextDefKey = "<F4>"
+set updatetime=1250
 
 " config for NERD Tree
 nmap <F7> :NERDTreeToggle<CR>
 let g:NERDTreeWinSize = 25
 let g:NERDTreeWinPos = "right"
+let g:NERDTreeShowBookmarks=1
 au VimEnter * NERDTreeClose
 
 " Config for taglist
- au VimEnter * Tlist
- nmap <F6> :TlistToggle<CR>
- let g:Tlist_WinWidth = 25
- let g:Tlist_Use_Left_Window = 1
- let g:Tlist_Show_One_File = 1 "show tags of only one file
- map <C-F1> :ta
+" au VimEnter * Tlist
+" nmap <F6> :TlistToggle<CR>
+" let g:Tlist_WinWidth = 25
+" let g:Tlist_Use_Left_Window = 1
+" let g:Tlist_Show_One_File = 1 "show tags of only one file
+" map <C-F1> :ta
+
+" TagBar
+nmap <F6> :TagbarToggle<CR>
+let g:tagbar_position = 'leftabove'
+
+" Better match tags list
+"nnoremap <C-]> :tab tjump <C-r><C-w><CR>
+"nnoremap <C-]> <C-w><C-]><C-w>T
 
 " NERD Tree support tabs in vim
 let g:nerdtree_tabs_open_on_console_startup=0
@@ -119,24 +101,36 @@ if has('cscope')
   command -nargs=0 Cscope cs add $VIMSRC/src/cscope.out $VIMSRC/src
 endif
 
+function! Csc()
+  cscope find c <cword>
+  copen
+endfunction
+command! Csc call Csc()
+
 " move tabs to the end for new, single buffers (exclude splits)
-autocmd BufNew * if winnr('$') == 1 | tabmove99 | endif
+autocmd BufNew * if winnr('$') == 1 | tabmove | endif
 
 " GRB: use fancy buffer closing that doesn't close the split
 cnoremap <expr> bd (getcmdtype() == ':' ? 'Bclose' : 'bd')
 
 " Remove trailing spaces on save
-"autocmd BufWritePre * %s/\s\+$//e
+autocmd BufWritePre * %s/\s\+$//e
 
-#hi Directory guifg=#FF0000 ctermfg=red
-#colors torte
+"colors torte
+"hi Directory guifg=#FF0000 ctermfg=red
 
 set incsearch
 
-" white foreground dark background
+" dark background
+"colorscheme wombat256
 highlight Normal guibg=black guifg=white
+highlight Visual term=reverse cterm=reverse guibg=Grey guifg=LightBlue gui=none
+highlight Pmenu ctermbg=gray guibg=gray
 set background=dark
 set t_Co=256
+
+" Enable highlight groups (highlights.vim)
+let g:match_maps = 1
 
 au BufRead,BufNewFile *.go set filetype=go
 " set rtp+=$GOROOT/misc/vim
@@ -145,30 +139,19 @@ filetype plugin indent on
 syntax on
 
 " minibuffer explorer
-  let g:miniBufExplMapWindowNavVim = 1
-"  let g:miniBufExplMapWindowNavArrows = 1
-  let g:miniBufExplMapCTabSwitchBufs = 1
-"  let g:miniBufExplModSelTarget = 1
-
-"
-" Project specific settings
-"
-function! SetupEnvironment()
-	let l:path = expand('%:p')
-	if l:path =~ '/home/roger/work/xyz'
-		setlocal expandtab smarttab textwidth=0
-		setlocal tabstop=4 shiftwidth=4
-	"elseif l:path =~ '/home/user/projects'
-	"	setlocal tabstop=4 shiftwidth=4 noexpandtab
-	endif
-endfunction
-"autocmd! BufReadPost,BufNewFile * call SetupEnvironment()
+"let g:miniBufExplMapWindowNavVim = 1
+"let g:miniBufExplMapWindowNavArrows = 1
+"let g:miniBufExplMapCTabSwitchBufs = 1
+"let g:miniBufExplModSelTarget = 1
+map <Leader>t :TMiniBufExplorer<cr>
 
 " Switching between tabs
 map <F9> :bp<CR>
 map <F10> :bn<CR>
 
 " signcolumn for older versions (for vim-gitgutter)
+highlight! link SignColumn LineNr
+"set signcolumn = yes
 autocmd BufEnter * sign define dummy
 autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
 
@@ -182,18 +165,71 @@ let g:gitgutter_async = 0
 let g:gitgutter_preview_win_floating = 0
 let g:gitgutter_use_location_list = 0
 
+" vim-gitgutter mapping
+let mapleader=","
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+
 " use cursor line highlighting
 if version >= 700
-	" set cursorline
+	"set cursorline
 endif
 
-" quick escape in INSERT mode
+" quick esapce in INSERT mode
 imap jj <esc>
 imap JJ <esc>
 
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+" find files and populate the quickfix list
+fun! FindFiles(filename)
+  let error_file = tempname()
+  silent exe '!find . -name "'.a:filename.'" | xargs file | sed "s/:/:1:/" > '.error_file
+  set errorformat=%f:%l:%m
+  exe "cfile ". error_file
+  copen
+  call delete(error_file)
+endfun
+command! -nargs=1 FindFile call FindFiles(<q-args>)
+
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set expandtab
 
-" install vim plugins located in .vim/bundle
+
+" install vim plugins in .vim/bundle
+"execute pathogen#infect()
+
+" clang-complete
+"let g:clang_library_path='<path-to-llvm-lib>/llvm-3.8/lib'
+
+"" YCM
+"let g:ycm_clangd_binary_path = "<path-to-clangd>/clangd"
+let g:ycm_auto_trigger = 1
+let g:ycm_auto_hover = ''
+nmap <leader>D <plug>(YCMHover)
+nmap <leader>rr :YcmCompleter GoToReferences<CR>
+nmap <leader>dc :YcmCompleter GoToDeclaration<CR>
+nmap <leader>df :YcmCompleter GoToDefinition<CR>
+
+" C++ jump prev/next methods
+"nnoremap <M-J> /\v^(\w+\s+)?\w+::\w+\(.*\)
+"nnoremap <M-K> ?\v^(\w+\s+)?\w+::\w+\(.*\)
+
+" Go to previous file
+nmap <leader>bb <c-^><cr>
+
+" Go to File under cursor
+nnoremap gf :vertical wincmd f<CR>
+
+" status line
+set statusline=%f\ %{FugitiveStatusline()}%h%w%m%r\ %=%(%l,%c%V\ %=\ %P%)
+
+" fzf Files
+nmap <silent> ; :Buffers<CR>
+nmap <silent> <leader>; :Files<CR>
+nmap <silent> <leader>m :History<CR>
+
+" project vimrc
+set exrc
+set secure
+
