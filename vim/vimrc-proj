@@ -1,0 +1,88 @@
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+
+" Vundle
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'ycm-core/YouCompleteMe' " still need to compile it manually
+
+" Add maktaba and codefmt to the runtimepath.
+" (The latter must be installed before it can be used.)
+Plugin 'google/vim-maktaba'
+Plugin 'google/vim-codefmt'
+" Also add Glaive, which is used to configure codefmt's maktaba flags. See
+" `:help :Glaive` for usage.
+Plugin 'google/vim-glaive'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+Plugin 'lyuts/vim-rtags'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+
+" the glaive#Install() should go after the "call vundle#end()"
+call glaive#Install()
+" Optional: Enable codefmt's default mappings on the <Leader>= prefix.
+Glaive codefmt plugin[mappings]
+Glaive codefmt google_java_executable="java -jar /path/to/google-java-format-VERSION-all-deps.jar"
+
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+filetype plugin on
+
+"" autoformat
+"augroup autoformat_settings
+"  "autocmd FileType bzl AutoFormatBuffer buildifier
+"  autocmd FileType c,cpp,proto,javascript,arduino AutoFormatBuffer clang-format
+"  "autocmd FileType dart AutoFormatBuffer dartfmt
+"  "autocmd FileType go AutoFormatBuffer gofmt
+"  "autocmd FileType gn AutoFormatBuffer gn
+"  "autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+"  autocmd FileType java AutoFormatBuffer google-java-format
+"  autocmd FileType python AutoFormatBuffer yapf
+"  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
+"  "autocmd FileType rust AutoFormatBuffer rustfmt
+"  "autocmd FileType vue AutoFormatBuffer prettier
+"augroup END
+"command NoAutoFormatGlobal autocmd! autoformat_settings
+
+" auto clang formatter
+Glaive codefmt clang_format_style="{BasedOnStyle: Google, ColumnLimit: 80, DerivePointerAlignment: false, PointerAlignment: Left}"
+Glaive codefmt clang_format_executable=clang-format-3.8
+
+" rtags
+"let g:rtagsUseDefaultMappings = 0
+let g:rtagsJumpStackMaxSize = 100
+let g:rtagsUseLocationList = 0
+
+" ycm
+let g:ycm_auto_trigger = 1
+let g:ycm_always_populate_location_list = 1
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_global_ycm_extra_conf = './ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf = 1
+let g:ycm_complete_in_comments_and_strings=1
+let g:ycm_collect_identifiers_from_tags_files=1
+let g:ycm_key_list_select_completion=['<Down>']
+let g:ycm_key_list_previous_completion=['<Up>']
+let g:ycm_min_num_of_chars_for_completion = 2
+"let g:ycm_add_preview_to_completeopt = 1 " enable preview window
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_max_num_candidates = 50
+"let g:ycm_key_invoke_completion = '<C-j>'
+
+" Generate compile_commands.json. Set them in bash:
+"   export SOONG_GEN_COMPDB=1
+"   export SOONG_GEN_COMPDB_DEBUG=1
+
