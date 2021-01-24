@@ -16,6 +16,10 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'ycm-core/YouCompleteMe' " still need to compile it manually
+Plugin 'tpope/vim-fugitive'
+Plugin 'preservim/tagbar'
+Plugin 'preservim/nerdtree'
+"Plugin 'vim-scripts/highlight.vim'
 
 " Add maktaba and codefmt to the runtimepath.
 " (The latter must be installed before it can be used.)
