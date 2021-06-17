@@ -70,7 +70,8 @@ au VimEnter * NERDTreeClose
 
 " TagBar
 nmap <F6> :TagbarToggle<CR>
-let g:tagbar_position = 'leftabove'
+" Put tagbar on the left window
+let g:tagbar_position = 'topleft vertical'
 
 " Better match tags list
 "nnoremap <C-]> :tab tjump <C-r><C-w><CR>
