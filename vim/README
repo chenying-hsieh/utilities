@@ -6,6 +6,7 @@ clang_complete
 cscope_maps
 bclose
 fs_menu
+fzf
 highlightMarks
 highlights
 linediff
@@ -18,4 +19,4 @@ vim-gitgutter
 vim-glaive
 vim-maktaba
 tagbar
-(YouCompleteMe)
+YouCompleteMe
